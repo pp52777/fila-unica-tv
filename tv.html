@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fila Única TV</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: url('fundo.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    position: relative;
+    color: white;
+  }
+  #message {
+    font-size: 72px;
+    text-align: center;
+    display: none;
+  }
+  #logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 150px;
+  }
+</style>
+</head>
+<body>
+
+<img id="logo" src="logo.png" alt="Logo"/>
+<div id="message">Caixa Chamado!</div>
+<audio id="audio" src="Caixa 1.m4a"></audio>
+
+<script>
+  const ws = new WebSocket('ws://192.168.0.200:8080'); // Remplacer TON_IP par l'IP de ton serveur
+
+  const msg = document.getElementById('message');
+  const audio = document.getElementById('audio');
+
+  ws.onmessage = (event) => {
+    if(event.data === "chamarCaixa") {
+      msg.style.display = 'block';
+      audio.currentTime = 0;
+      audio.play();
+      setTimeout(() => {
+        msg.style.display = 'none';
+      }, 10000);
+    }
+  };
+
+  ws.onopen = () => console.log("TV connectée au serveur WebSocket");
+</script>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chamar Caixa</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: url('fundo.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+  }
+
+  #callBtn {
+    padding: 20px 40px;
+    font-size: 28px;
+    border: none;
+    border-radius: 15px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+  }
+
+  #callBtn:active {
+    transform: scale(0.95);
+  }
+</style>
+</head>
+<body>
+
+<button id="callBtn">Chamar Caixa</button>
+
+<script>
+  const ws = new WebSocket('ws://192.168.0.200:8080'); // Remplacer TON_IP par l'IP de ton serveur
+  const btn = document.getElementById('callBtn');
+
+  btn.addEventListener('click', () => {
+    if(ws.readyState === WebSocket.OPEN) {
+      ws.send("chamarCaixa");
+    }
+    alert("Caisse appelée !");
+  });
+
+  ws.onopen = () => console.log("Téléphone connecté au serveur WebSocket");
+</script>
+
+</body>
+</html>
